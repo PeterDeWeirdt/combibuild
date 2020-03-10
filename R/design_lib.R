@@ -77,17 +77,28 @@ design_guide_combos <- function(gene_combos, guide_tibble, gene_col, guide_pairi
 #'
 #' @importFrom magrittr %>%
 #' @import dplyr
-#' @param gene_list list of genes to design. Genes in this list will be designed
-#' in an all by all fashion.
-#' @param gene_pairs programmed gene pairs.
-#' @return combinatorial designs with columns gene1, gene2, guide1, guide2, dr
+#' @param design_file from GPP's CRISPick
+#' @param all_by_all_gene design the simplest combinatorial library, pairing all
+#' genes in the design file with all other genes
+#' @param row_genes genes to be paired with col_genes
+#' @param col_genes genes to be paired with row_genes
+#' @param ref_genes all genes get paired with these
+#' @param gene_pairs programmed gene pairs
+#' @param guide_pairing either 'all' or 'rank'
+#' @param dual_orientation pair guides in both directions
+#' @param gene_col column name with genes from CRISPick
+#' @param guide_col column name with guides from CRISPick
+#' @param guide_rank column name with guide ranks from CRISPick
+#' @return combinatorial designs with columns gene1, gene2, guide1, guide2
 #' @export
-design_combo_lib <- function(design_file, gene_col = 'Target Gene Symbol',
-                             guide_col = 'sgRNA Sequence', guide_rank = 'Pick Order',
+design_combo_lib <- function(design_file,
                              all_by_all_gene = F, row_genes = NULL,
                              col_genes = NULL, ref_genes = NULL,
                              gene_pairs = NULL,
-                             guide_pairing = 'all', dual_orientation = F) {
+                             guide_pairing = 'all', dual_orientation = F,
+                             gene_col = 'Target Gene Symbol',
+                             guide_col = 'sgRNA Sequence',
+                             guide_rank = 'Pick Order') {
   minimal_designs <- design_file %>% select(gene_col, guide_col, guide_rank)
   all_genes <- unique(minimal_designs[[gene_col]])
 

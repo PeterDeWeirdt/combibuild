@@ -6,26 +6,44 @@
 \usage{
 design_combo_lib(
   design_file,
-  gene_col = "Target Gene Symbol",
-  guide_col = "sgRNA Sequence",
-  guide_rank = "Pick Order",
   all_by_all_gene = F,
   row_genes = NULL,
   col_genes = NULL,
   ref_genes = NULL,
   gene_pairs = NULL,
   guide_pairing = "all",
-  dual_orientation = F
+  dual_orientation = F,
+  gene_col = "Target Gene Symbol",
+  guide_col = "sgRNA Sequence",
+  guide_rank = "Pick Order"
 )
 }
 \arguments{
-\item{gene_pairs}{programmed gene pairs.}
+\item{design_file}{from GPP's CRISPick}
 
-\item{gene_list}{list of genes to design. Genes in this list will be designed
-in an all by all fashion.}
+\item{all_by_all_gene}{design the simplest combinatorial library, pairing all
+genes in the design file with all other genes}
+
+\item{row_genes}{genes to be paired with col_genes}
+
+\item{col_genes}{genes to be paired with row_genes}
+
+\item{ref_genes}{all genes get paired with these}
+
+\item{gene_pairs}{programmed gene pairs}
+
+\item{guide_pairing}{either 'all' or 'rank'}
+
+\item{dual_orientation}{pair guides in both directions}
+
+\item{gene_col}{column name with genes from CRISPick}
+
+\item{guide_col}{column name with guides from CRISPick}
+
+\item{guide_rank}{column name with guide ranks from CRISPick}
 }
 \value{
-combinatorial designs with columns gene1, gene2, guide1, guide2, dr
+combinatorial designs with columns gene1, gene2, guide1, guide2
 }
 \description{
 design a combinatorial library
