@@ -35,8 +35,9 @@ design_gene_combos <- function(all_genes,
     colnames(gene_pairs) <- c('gene_x', 'gene_y')
   }
   if (!is.null(ref_genes)) {
-    ref_combos <- tidyr::crossing(all_genes, ref_genes) %>%
-      rename(gene_x = all_genes, gene_y = ref_genes)
+    query_genes <- all_genes[!(all_genes %in% ref_genes)]
+    ref_combos <- tidyr::crossing(query_genes, ref_genes) %>%
+      rename(gene_x = query_genes, gene_y = ref_genes)
   }
   gene_combos <- bind_rows(aba_combos, row_col_combos, gene_pairs, ref_combos) %>%
     distinct()
