@@ -22,7 +22,7 @@ test_that('design gene combos', {
                nrow(design_gene_combos(all_genes, F, NULL, NULL,
                                        tibble(gene1 = c('EEF2', 'BCL2L1'),
                                               gene2 = c('MCL1', 'EEF2')), NULL, F)))
-  expect_equal(3, nrow(design_gene_combos(all_genes, F, NULL, NULL, NULL,
+  expect_equal(2, nrow(design_gene_combos(all_genes, F, NULL, NULL, NULL,
                                           c('EEF2'), F)))
   expect_equal(3*3,
                nrow(design_gene_combos(all_genes, T, NULL, NULL, NULL, NULL, T)))
@@ -52,4 +52,12 @@ test_that('library design', {
                                         gene_pairs = tibble(gene1 = c('MCL1'),
                                                             gene2 = c('BCL2L1')),
                                         guide_pairing = 'rank')))
+})
+
+test_that('shuffle lib', {
+  lib <- tibble(gene_x = c('MCL1', 'MCL1'), gene_y = c('BCL2L1', 'BCL2L1'),
+                guide_x = c('X1', 'X2'), guide_y = c('Y1', 'Y2'))
+  shuffled_lib <- tibble(gene_1 = c('BCL2L1', 'MCL1'), guide_1 = c('Y1', 'X2'),
+                         gene_2 = c('MCL1', 'BCL2L1'), guide_2 = c('X1', 'Y2'))
+  expect_equal(shuffle_combo_lib(lib, seed = 7), shuffled_lib)
 })

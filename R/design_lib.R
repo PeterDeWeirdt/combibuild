@@ -90,7 +90,7 @@ design_guide_combos <- function(gene_combos, guide_tibble, gene_col, guide_pairi
 #' @param gene_col column name with genes from CRISPick
 #' @param guide_col column name with guides from CRISPick
 #' @param guide_rank column name with guide ranks from CRISPick
-#' @return combinatorial designs with columns gene1, gene2, guide1, guide2
+#' @return combinatorial designs with columns gene_x, gene_y, guide_x, guide_y
 #' @export
 design_combo_lib <- function(design_file,
                              all_by_all_gene = F, row_genes = NULL,
@@ -113,4 +113,24 @@ design_combo_lib <- function(design_file,
     rename(guide = guide_col, rank = guide_rank)
   guide_combos <- design_guide_combos(gene_combos, guide_tibble, gene_col, guide_pairing)
   return(guide_combos)
+}
+
+#' Shuffle the guide order of combinatorial library to avoid systematic biases
+#' in guide order
+#'
+#' @param combo_lib
+#' @return combinatorial designs with columns gene_1, gene_2, guide_1, guide_2
+#' @export
+shuffle_combo_lib <- function(combo_lib, seed = NULL) {
+  if (!is.null(seed)) {
+    set.seed(seed)
+  }
+  combo_lib['first'] <- sample(c('x', 'y'), nrow(combo_lib), replace = T)
+  shuffled_lib <- combo_lib %>%
+    mutate(gene_1 = if_else(first == 'x', gene_x, gene_y),
+           guide_1 = if_else(first == 'x', guide_x, guide_y),
+           gene_2 = if_else(first == 'x', gene_y, gene_x),
+           guide_2 = if_else(first == 'x', guide_y, guide_x)) %>%
+    select(gene_1:guide_2)
+  return(shuffled_lib)
 }

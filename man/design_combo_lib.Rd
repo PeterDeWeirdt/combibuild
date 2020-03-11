@@ -43,7 +43,7 @@ genes in the design file with all other genes}
 \item{guide_rank}{column name with guide ranks from CRISPick}
 }
 \value{
-combinatorial designs with columns gene1, gene2, guide1, guide2
+combinatorial designs with columns gene_x, gene_y, guide_x, guide_y
 }
 \description{
 design a combinatorial library
